@@ -1,0 +1,16 @@
+#libraries required
+matplotlib (https://matplotlib.org/stable/users/installing.html)
+astropy (https://docs.astropy.org/en/latest/install.html)
+scipy (https://scipy.org/install/)
+numpy (https://numpy.org/install/)
+pandas (https://pandas.pydata.org/docs/getting_started/install.html)
+seaborn (https://seaborn.pydata.org/installing.html)
+sklearn (https://scikit-learn.org/stable/install.html)
+statsmodels (https://www.statsmodels.org/stable/install.html)
+
+# install with pip
+pip install matplotlib astropy scipy numpy pandas seaborn scikit-learn statsmodels
+
+# is recommended to use a virtual environment
+# create virtual environment
+python -m venv venv
