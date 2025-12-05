@@ -33,7 +33,7 @@ input("Pressione Enter para continuar...")
 hdul = fits.open("sindex.fit")
 data = hdul[1].data
 
-anos = []
+years = []
 cals = []
 
 ciclo20, ciclo21, ciclo22, ciclo23, ciclo24 = [], [], [], [], []
@@ -45,7 +45,7 @@ for row in data:
     if not (start <= year <= end):
         continue
 
-    anos.append(jd)
+    years.append(jd)
     cals.append(float(row[2]))
 
     if 1965 <= year <= 1977:
