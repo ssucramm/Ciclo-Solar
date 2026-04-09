@@ -5,12 +5,10 @@ input("Pressione Enter para continuar...")
 print("Certifique-se de que a data esteja entre 1966 e 2016")
 
 start_txt = input("Periodo de start (Enter = 1966): ").strip()
-end_txt    = input("Periodo de end (Enter = 2016): ").strip()
-
+end_txt = input("Periodo de end (Enter = 2016): ").strip()
 
 start = 1966
 end = 2016
-
 
 if start_txt.isdigit():
     start = int(start_txt)
@@ -31,6 +29,7 @@ input("Pressione Enter para continuar...")
 
 
 hdul = fits.open("sindex.fit")
+
 data = hdul[1].data
 
 years = []
@@ -56,8 +55,7 @@ for row in data:
         ciclo22.append(jd)
     elif 1996 < year <= 2009:
         ciclo23.append(jd)
-    else:
-        ciclo24.append(jd)
+    
 
 ciclos = []
 for ciclo in [ciclo20, ciclo21, ciclo22, ciclo23, ciclo24]:
