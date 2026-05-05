@@ -82,7 +82,7 @@ fig2, ax2 = plt.subplots(figsize=(14, 5))
 ax2.plot(dates_spots, df_mensal['Z_Suave'],
          color='#B22222', linewidth=2.2, label=f'Manchas solares (SG, w={13})')
 ax2.plot(xray_suave.index, xray_suave,
-         color=COR_XRAY_SG, linewidth=2.2, label=f'Fluxo X-ray (SG, w={13})')
+         color='#1A5C8A', linewidth=2.2, label=f'Fluxo X-ray (SG, w={13})')
 formata_eixo(ax2)
 ax2.set_title("Ciclos Solares 23 e 24 — Savitzky-Golay", fontsize=12, fontweight='bold')
 ax2.legend(loc='upper left', fontsize=9, framealpha=0.85)
@@ -106,7 +106,7 @@ ax_top.legend(loc='upper left', fontsize=9, framealpha=0.85)
 ax_bot.plot(xray_log_z.index, xray_log_z,
             color='#4A90C4', linewidth=0.8, alpha=0.5, label='Bruto')
 ax_bot.plot(xray_suave.index, xray_suave,
-            color=COR_XRAY_SG, linewidth=2.2, label=f'SG w={13}')
+            color='#1A5C8A', linewidth=2.2, label=f'SG w={13}')
 formata_eixo(ax_bot)
 ax_bot.set_ylabel("Z-score — X-ray", fontsize=10)
 ax_bot.legend(loc='upper left', fontsize=9, framealpha=0.85)
