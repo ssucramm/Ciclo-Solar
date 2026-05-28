@@ -18,7 +18,8 @@ for inicio, fim in ciclos:
     mask = (x >= inicio) & (x <= fim)
     periodo(x[mask], y[mask])
 
-plt.xlabel('Years in JD-2400000')
+plt.xlabel('Julian Date (JD)')
 plt.ylabel('S-index')
 plt.title('S-index during Solar Cycles')
+plt.savefig('gráficos/sindex_ciclos.png')
 plt.show()

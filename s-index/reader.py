@@ -39,7 +39,7 @@ ciclo20, ciclo21, ciclo22, ciclo23, ciclo24 = [], [], [], [], []
 
 for row in data:
     jd = float(row[0])
-    year = jd_to_date(jd + 2400000)[0] 
+    year = jd_to_date(jd + 2400000.5)[0] 
 
     if not (start <= year <= end):
         continue
@@ -55,10 +55,11 @@ for row in data:
         ciclo22.append(jd)
     elif 1996 < year <= 2009:
         ciclo23.append(jd)
+    elif 2008 < year <= 2016:
+        ciclo24.append(jd)
     
 
 ciclos = []
 for ciclo in [ciclo20, ciclo21, ciclo22, ciclo23, ciclo24]:
     if len(ciclo) > 1:
         ciclos.append((ciclo[0], ciclo[-1]))
-
