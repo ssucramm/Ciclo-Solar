@@ -33,7 +33,7 @@ O programa:
 O gráfico abaixo mostra a variação da quantidade de manchas solares ao longo do tempo.
 
 <p align="center">
-  <img src="graficos/numero_manchas.png" width="900">
+  <img src="gráficos/numero_manchas.png" width="900">
 </p>
 
 É possível observar oscilações periódicas na atividade solar, indicando a existência de ciclos naturais.
@@ -45,7 +45,7 @@ O gráfico abaixo mostra a variação da quantidade de manchas solares ao longo 
 Após aplicar a FFT, o espectro de potência revela quais frequências possuem maior intensidade nos dados.
 
 <p align="center">
-  <img src="graficos/potencia.png" width="900">
+  <img src="gráficos/potencia.png" width="900">
 </p>
 
 O pico dominante do espectro corresponde ao principal ciclo periódico presente na atividade solar.
