@@ -4,8 +4,14 @@ Este repositório reúne ferramentas, scripts e utilitários desenvolvidos para 
 O foco é fornecer códigos simples, organizados e reutilizáveis para análise de séries temporais solares, interpolação, visualização e tratamento de dados astronômicos.
 
 ## 📁 Estrutura do Repositório
-📁s-index (Em desenvolvimento)
-Sistema para gerar um gráfico do s-index solar
+📁s-index 
+- Sistema para gerar um gráfico do s-index solar
+
+📁Fourier
+- Método para análisar os picos e identificar a periodicidade
+
+📁x-ray
+- Sistema para análisar a relação do indice Xray com a quantidade de manchas solares
 
 
 ## 🛠 Tecnologias utilizadas
