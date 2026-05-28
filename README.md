@@ -6,8 +6,10 @@ O foco é fornecer códigos simples, organizados e reutilizáveis para análise 
 ## 📁 Estrutura do Repositório
 📁s-index 
 - Sistema para gerar um gráfico do s-index solar
+
 📁Fourier
 - Método para análisar os picos e identificar a periodicidade
+
 📁x-ray
 - Sistema para análisar a relação do indice Xray com a quantidade de manchas solares
 
