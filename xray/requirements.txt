@@ -1,0 +1,7 @@
+#libraries required
+sunpy
+pandas
+matplotlib
+numpy   
+scipy
+
