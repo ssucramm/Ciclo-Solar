@@ -33,7 +33,7 @@ O programa:
 O gráfico abaixo mostra a variação da quantidade de manchas solares ao longo do tempo.
 
 <p align="center">
-  <img src="gráficos/número_manchas.png" width="900">
+  <img src="gráficos/número_de_manchas.png" width="900">
 </p>
 
 É possível observar oscilações periódicas na atividade solar, indicando a existência de ciclos naturais.
