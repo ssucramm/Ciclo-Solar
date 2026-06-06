@@ -7,7 +7,180 @@
     <link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
-    <a href="./xray/gráficos/ciclo_solar_suavizado.png">Ciclo Solar</a>
-    <img src="./xray/gráficos/ciclo_solar_suavizado.png" alt="Ciclo Solar">
+    <nav class="navbar">
+       <a>
+        
+       </a>
+    </nav>
+        
+    <section class="container">
+        <h1>Ciclo Solar</h1>
+        <p>O ciclo solar é um fenômeno natural que ocorre aproximadamente a cada 11 anos, caracterizado por variações na atividade solar, como manchas solares, erupções solares e mudanças na radiação emitida pelo Sol. Durante o ciclo solar, a quantidade de manchas solares aumenta e diminui, afetando o clima espacial e a Terra de diversas maneiras.</p>
+        <p>O ciclo solar é dividido em duas fases principais: a fase de máxima solar, onde a atividade solar é mais intensa, e a fase de mínima solar, onde a atividade é mais baixa. Durante a máxima solar, as tempestades solares podem causar interferências em satélites, redes de energia e comunicações. Já durante a mínima solar, há uma redução na radiação ultravioleta emitida pelo Sol, o que pode influenciar o clima terrestre.</p>
+        <p>O estudo do ciclo solar é importante para entender os impactos que ele pode ter na Terra e para prever eventos solares que possam afetar nossas tecnologias e infraestrutura. Cientistas monitoram o ciclo solar usando satélites e observatórios para coletar dados sobre a atividade solar e suas consequências.</p>
+        <h2>Curiosidades sobre o ciclo solar</h2>
+            <ul>
+                <li>O ciclo solar é causado por um processo chamado <strong>dínamo solar</strong>, que envolve a movimentação do plasma no interior do Sol.</li>
+                <li>A duração média do ciclo solar é de cerca de 11 anos, mas pode variar entre 9 e 14 anos.</li>
+                <li>Durante a máxima solar, as auroras boreais e austrais são mais frequentes e intensas devido ao aumento da atividade solar.</li>
+                <li>O ciclo solar pode influenciar o clima terrestre, com períodos de mínima solar associados a invernos mais rigorosos em algumas regiões.</li>
+                <li>O estudo do ciclo solar é fundamental para a previsão de tempestades solares, que podem afetar satélites, redes de energia e comunicações na Terra.</li>
+            </ul>
+    </section>
+
+
+    <section id="S-index" class="container">
+    <h1>Análise do Índice S e Ciclos Solares</h1>
+
+    <p>
+        Este projeto realiza uma análise temporal da atividade solar utilizando dados históricos do
+        <strong>índice S (S-index)</strong>, extraídos de arquivos FITS.
+    </p>
+
+    <p>
+        O objetivo é identificar e visualizar os ciclos solares presentes nos dados,
+        cobrindo o período de <strong>1966 a 2016</strong>.
+    </p>
+
+    <p>
+        <strong>Arquivo principal para execução:</strong> <code>graphic.py</code>
+    </p>
+
+    <hr>
+
+    <h2>Tecnologias Utilizadas</h2>
+
+    <ul>
+        <li>Python</li>
+        <li>NumPy</li>
+        <li>Matplotlib</li>
+        <li>Astropy</li>
+        <li>SciPy</li>
+    </ul>
+
+    <hr>
+
+    <h2>Estrutura dos Arquivos</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Arquivo</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>sindex.fit</code></td>
+                <td>Dados históricos do índice S em formato FITS.</td>
+            </tr>
+            <tr>
+                <td><code>reader.py</code></td>
+                <td>Leitura do arquivo FITS e separação por ciclo solar.</td>
+            </tr>
+            <tr>
+                <td><code>converter.py</code></td>
+                <td>Funções de conversão entre Julian Date e data calendário.</td>
+            </tr>
+            <tr>
+                <td><code>graphic.py</code></td>
+                <td>Geração dos gráficos com spline por ciclo.</td>
+            </tr>
+            <tr>
+                <td><code>requirements.txt</code></td>
+                <td>Dependências do projeto.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Funcionamento do Código</h2>
+
+    <ol>
+        <li>Carrega os dados do arquivo <code>sindex.fit</code> via Astropy;</li>
+        <li>Converte as datas de Julian Date para ano calendário;</li>
+        <li>Filtra os dados conforme o período escolhido pelo usuário;</li>
+        <li>Separa as observações em ciclos solares (Ciclos 20 a 24);</li>
+        <li>Gera um gráfico de dispersão do índice S ao longo do tempo;</li>
+        <li>Aplica uma spline suavizada sobre cada ciclo solar individualmente.</li>
+    </ol>
+
+    <hr>
+
+    <h2>Gráfico do Índice S</h2>
+
+    <p>
+        O gráfico abaixo mostra a variação do índice S ao longo do tempo, com uma curva spline
+        ajustada para cada ciclo solar.
+    </p>
+
+    <div style="text-align: center;">
+        <img src="S-index/gráficos/sindex_ciclos.png"
+             alt="Gráfico do Índice S por Ciclo Solar"
+             width="900">
+    </div>
+
+    <p>
+        É possível observar as variações periódicas da atividade cromosférica solar ao longo dos ciclos.
+    </p>
+
+    <hr>
+
+    <h2>Ciclos Solares Identificados</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ciclo</th>
+                <th>Período Aproximado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>20</td>
+                <td>1965 – 1977</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>1976 – 1987</td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td>1986 – 1997</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>1996 – 2009</td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>2008 – 2016</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Interpretação Física</h2>
+
+    <p>
+        O <strong>índice S</strong> mede a emissão cromosférica do Sol nas linhas
+        <strong>Ca II H e K</strong>, sendo um indicador direto da atividade magnética solar.
+    </p>
+
+    <p>
+        Valores mais altos do índice S correspondem a períodos de maior atividade solar,
+        associados a um maior número de manchas solares e eventos de ejeção de massa coronal.
+    </p>
+
+    <p>
+        A curva spline ajustada sobre cada ciclo permite visualizar a tendência geral da
+        atividade ao longo de cada período, destacando os máximos e mínimos solares.
+    </p>
+    </section>
+
+    
+
 </body>
 </html>
