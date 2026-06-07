@@ -54,26 +54,21 @@ body {
     border-collapse: collapse;
     margin: 20px 0;
     background-color: #2B3233;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
 .container table, .container th, .container td {
     border: 4px solid #4e4d4c;
 }
 
-.container th,
-.container td {
+.container th, .container td {
     padding: 20px;
     text-align: center;
     color: #d3d2d2;
     font-family: 'Arial', sans-serif;
-    white-space: nowrap;     /* evita quebra estranha nas células */
+    white-space: nowrap;  
 }
 
-.container ul,
-.container li,
-.container ol {
+.container ul,.container li,.container ol {
     margin: 20px;
     padding: 0;
     list-style-type: circle;
@@ -183,8 +178,7 @@ body {
         font-size: 16px;
     }
 
-    .container th,
-    .container td {
+    .container th, .container td {
         padding: 12px 8px;
         font-size: 14px;
         white-space: normal;  
