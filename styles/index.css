@@ -31,8 +31,7 @@ body {
     word-break: break-word;
 }
 
-.container h2,
-.container h3 {
+.container h2, .container h3 {
     padding: 20px;
     color: #1D98B1;
     font-family: 'Arial', sans-serif;
@@ -55,7 +54,6 @@ body {
     border-collapse: collapse;
     margin: 20px 0;
     background-color: #2B3233;
-    display: block;          /* permite overflow-x */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
