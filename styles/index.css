@@ -1,3 +1,5 @@
+
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
@@ -5,7 +7,11 @@ html {
 
 body {
     margin: 0;
-    background-color: #1a1e1f;
+    background-color: #101411;
+}
+
+.container hr {
+    border-color: #0FBF3E;
 }
 
 .container {
@@ -14,7 +20,7 @@ body {
     border-bottom: 5px solid #1a1e1f;
     border-top: 5px solid #1a1e1f;
     padding: 20px;
-    background-color: #2B3233;
+    background-color: #232925;
     border-radius: 20px;
 }
 
@@ -23,9 +29,9 @@ body {
     padding: 20px;
     margin-bottom: 20px;
     text-align: center;
-    color: #2D7786;
+    color: #F2F5F3;
     font-family: 'Arial', sans-serif;
-    background-color: #151b1d;
+    background-color: #909692;
     border-radius: 10px;
     box-shadow: 7px 7px #0e1314;
     word-break: break-word;
@@ -33,7 +39,7 @@ body {
 
 .container h2, .container h3 {
     padding: 20px;
-    color: #1D98B1;
+    color: #F2F5F3;
     font-family: 'Arial', sans-serif;
     text-align: left;
     word-break: break-word;
@@ -43,7 +49,7 @@ body {
     margin: auto;
     padding: 10px;
     text-align: justify;
-    color: #d3d2d2;
+    color: #F2F5F3;
     font-size: 16px;
     line-height: 1.5;
     font-family: 'Arial', sans-serif;
@@ -53,11 +59,11 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    background-color: #2B3233;
+    background-color: #101411;
 }
 
 .container table, .container th, .container td {
-    border: 4px solid #4e4d4c;
+    border: 4px solid #333332;
 }
 
 .container th, .container td {
@@ -113,10 +119,10 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background-color: #26292c;
+    background-color: #232925;
     padding: 10px 20px;
     font-family: 'Arial', sans-serif;
-    border-bottom: 5px solid #0f0f0f;
+    border-bottom: 5px solid #0FBF3E;
 }
 
 .nav-home {
@@ -126,20 +132,21 @@ body {
 }
 
 .navbar h1 {
-    color: #2D7786;
+    color: #08872B;
     font-size: 40px;
     margin: 6px 0;
     word-break: break-word;
 }
 
 .nav-link {
-    color: #1D98B1;
+    color: #0FBF3E;
     text-decoration: underline;
     font-size: 18px;
     margin: 0 10px;
     font-family: 'Arial', sans-serif;
     white-space: nowrap;
 }
+
 
 /* ════════════════════════════════════════
    RESPONSIVIDADE — tablet  (< 768 px)
