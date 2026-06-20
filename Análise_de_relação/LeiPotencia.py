@@ -53,16 +53,15 @@ def fit(mx, xx):
     Regressão linear em log-log:
         log10(xray) = β·log10(manchas) + log10(a)
         →  xray = a · manchas^β
-    Retorna: β, log10(a), R², p-valor, Spearman ρ, resíduos
+    Retorna: β, log10(a), R², p-valor, Spearman ρ
     """
     lm, lx = np.log10(mx), np.log10(xx)
     sl, ic, r, pv, _ = linregress(lm, lx)
     rho, _  = spearmanr(mx, xx)
-    resid   = lx - (ic + sl * lm)
-    return sl, ic, r**2, pv, rho, resid
+    return sl, ic, r**2, pv, rho
 
-β_r, a_r, r2_r, pv_r, ρ_r, res_r = fit(m_r, x_r)
-β_s, a_s, r2_s, pv_s, ρ_s, res_s = fit(m_s, x_s)
+β_r, a_r, r2_r, pv_r, ρ_r = fit(m_r, x_r)
+β_s, a_s, r2_s, pv_s, ρ_s = fit(m_s, x_s)
 
 print(f"[Bruto]  β={β_r:.3f}  log(a)={a_r:.3f}  R²={r2_r:.3f}  ρ={ρ_r:.3f}  p={pv_r:.1e}")
 print(f"[SG]     β={β_s:.3f}  log(a)={a_s:.3f}  R²={r2_s:.3f}  ρ={ρ_s:.3f}  p={pv_s:.1e}")
@@ -72,21 +71,30 @@ C_RAW = '#E07B39'   # laranja — bruto
 C_SG  = '#08306B'   # azul escuro — suavizado
 C_FIT = '#2CA02C'   # verde — linha de ajuste
 
-# ── 6. Figura 2×2 ─────────────────────────────────────────────────────────────
-# Linha de cima : scatter log-log com ajuste
-# Linha de baixo: resíduos do ajuste
-fig = plt.figure(figsize=(13, 10))
+# ── 6. Figura 1×2 ─────────────────────────────────────────────────────────────
+# Apenas os scatters log-log com ajuste (sem gráfico de resíduos)
+fig = plt.figure(figsize=(13, 5.5))
 fig.suptitle(
     "Lei da Potência: Fluxo X-ray × Manchas Solares\n"
     r"Modelo: $X\text{-}ray = a \cdot N_{manchas}^{\,\beta}$",
-    fontsize=12, fontweight='bold', y=1.01
+    fontsize=12, fontweight='bold', y=1.04
 )
-gs = gridspec.GridSpec(2, 2, hspace=0.40, wspace=0.32)
-ax_sc_r  = fig.add_subplot(gs[0, 0])
-ax_sc_s  = fig.add_subplot(gs[0, 1])
-ax_res_r = fig.add_subplot(gs[1, 0])
-ax_res_s = fig.add_subplot(gs[1, 1])
+gs = gridspec.GridSpec(1, 2, wspace=0.32)
+ax_sc_r = fig.add_subplot(gs[0, 0])
+ax_sc_s = fig.add_subplot(gs[0, 1])
 
+
+# def plota_residuos(ax, mx, resid, cor, titulo):
+#     ax.scatter(np.log10(mx), resid, s=14, alpha=0.55, color=cor, zorder=3)
+#     ax.axhline(0, color='black', lw=1.0, linestyle='--', alpha=0.6)
+#     sigma = resid.std()
+#     ax.axhspan(-sigma, sigma, color=cor, alpha=0.08, label=f'±1σ = {sigma:.3f}')
+#     ax.set_xlabel('log₁₀(Manchas)', fontsize=9)
+#     ax.set_ylabel('Resíduo (log₁₀)', fontsize=9)
+#     ax.set_title(titulo, fontsize=10, fontweight='bold')
+#     ax.legend(fontsize=8, framealpha=0.88)
+#     ax.grid(True, which='major', linestyle='--', alpha=0.3)
+#     ax.tick_params(labelsize=8)
 
 def plota_scatter(ax, mx, xx, beta, a_ic, r2, pv, rho, cor, titulo):
     ax.scatter(mx, xx, s=14, alpha=0.55, color=cor, zorder=3, label='Dados mensais')
@@ -106,23 +114,8 @@ def plota_scatter(ax, mx, xx, beta, a_ic, r2, pv, rho, cor, titulo):
     ax.tick_params(labelsize=8)
 
 
-def plota_residuos(ax, mx, resid, cor, titulo):
-    ax.scatter(np.log10(mx), resid, s=14, alpha=0.55, color=cor, zorder=3)
-    ax.axhline(0, color='black', lw=1.0, linestyle='--', alpha=0.6)
-    sigma = resid.std()
-    ax.axhspan(-sigma, sigma, color=cor, alpha=0.08, label=f'±1σ = {sigma:.3f}')
-    ax.set_xlabel('log₁₀(Manchas)', fontsize=9)
-    ax.set_ylabel('Resíduo (log₁₀)', fontsize=9)
-    ax.set_title(titulo, fontsize=10, fontweight='bold')
-    ax.legend(fontsize=8, framealpha=0.88)
-    ax.grid(True, which='major', linestyle='--', alpha=0.3)
-    ax.tick_params(labelsize=8)
-
-
-plota_scatter(ax_sc_r,  m_r, x_r, β_r, a_r, r2_r, pv_r, ρ_r, C_RAW,"Scatter log-log — Dados Brutos")
-plota_scatter(ax_sc_s,  m_s, x_s, β_s, a_s, r2_s, pv_s, ρ_s, C_SG,"Scatter log-log — Dados Suavizados (SG)")
-plota_residuos(ax_res_r, m_r, res_r, C_RAW, "Resíduos do ajuste — Bruto")
-plota_residuos(ax_res_s, m_s, res_s, C_SG,  "Resíduos do ajuste — Suavizado (SG)")
+plota_scatter(ax_sc_r, m_r, x_r, β_r, a_r, r2_r, pv_r, ρ_r, C_RAW, "Scatter log-log — Dados Brutos")
+plota_scatter(ax_sc_s, m_s, x_s, β_s, a_s, r2_s, pv_s, ρ_s, C_SG,  "Scatter log-log — Dados Suavizados (SG)")
 
 fig.savefig('gráficos/lei_potencia_xray_manchas.png', dpi=150, bbox_inches='tight')
 plt.close(fig)
