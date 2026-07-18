@@ -4,13 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ciclo Solar</title>
-    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
     <nav class="navbar">
-       <a>
-        
-       </a>
+        <a href="#top" class="nav-home" onclick="scrollToSection('top')">
+            <h1> Projeto de Atividade Solar </h1>
+        </a>
+        <a href="#S-index" class="nav-link" onclick="scrollToSection('S-index')">
+            S-index
+        </a>
+        <a href="#Fourier" class="nav-link" onclick="scrollToSection('Fourier')">
+            Fourier
+        </a>
+        <a href="#X-ray" class="nav-link" onclick="scrollToSection('X-ray')">
+            X-ray
+        </a>
     </nav>
         
     <section class="container">
@@ -30,7 +39,7 @@
 
 
     <section id="S-index" class="container">
-    <h1>Análise do Índice S e Ciclos Solares</h1>
+    <h1>Análise do S-index e Ciclos Solares</h1>
 
     <p>
         Este projeto realiza uma análise temporal da atividade solar utilizando dados históricos do
@@ -116,7 +125,7 @@
     </p>
 
     <div style="text-align: center;">
-        <img src="S-index/gráficos/sindex_ciclos.png"
+        <img src="s-index/gráficos/sindex_ciclos.png"
              alt="Gráfico do Índice S por Ciclo Solar"
              width="900">
     </div>
@@ -180,7 +189,293 @@
     </p>
     </section>
 
-    
+    <section id="Fourier" class="container">
+    <h1>Análise de Manchas Solares com FFT</h1>
+
+    <p>
+        Este projeto realiza uma análise temporal da atividade solar utilizando dados históricos
+        de manchas solares e a <strong>Transformada Rápida de Fourier (FFT)</strong>.
+    </p>
+
+    <p>
+        O objetivo é identificar ciclos periódicos presentes na atividade solar,
+        especialmente o ciclo solar de aproximadamente <strong>11 anos</strong>.
+    </p>
+
+    <hr>
+
+    <h2>Tecnologias Utilizadas</h2>
+
+    <ul>
+        <li>Python</li>
+        <li>NumPy</li>
+        <li>Matplotlib</li>
+    </ul>
+
+    <hr>
+
+    <h2>Funcionamento do Código</h2>
+
+    <ol>
+        <li>Carrega os dados do arquivo <code>sunspots.txt</code>;</li>
+        <li>Separa os dados de tempo e número de manchas solares;</li>
+        <li>Gera um gráfico temporal da atividade solar;</li>
+        <li>Calcula a FFT dos dados;</li>
+        <li>Constrói o espectro de potência;</li>
+        <li>Detecta o pico dominante do espectro;</li>
+        <li>Calcula o período correspondente ao ciclo solar.</li>
+    </ol>
+
+    <hr>
+
+    <h2>Gráfico do Número de Manchas Solares</h2>
+
+    <p>
+        O gráfico abaixo mostra a variação da quantidade de manchas solares ao longo do tempo.
+    </p>
+
+    <div style="text-align: center;">
+        <img src="Fourier/gráficos/número_de_manchas.png"
+             alt="Gráfico do Número de Manchas Solares"
+             width="900">
+    </div>
+
+    <p>
+        É possível observar oscilações periódicas na atividade solar,
+        indicando a existência de ciclos naturais.
+    </p>
+
+    <hr>
+
+    <h2>Espectro de Potência</h2>
+
+    <p>
+        Após aplicar a FFT, o espectro de potência revela quais frequências
+        possuem maior intensidade nos dados.
+    </p>
+
+    <div style="text-align: center;">
+        <img src="Fourier/gráficos/potência.png"
+             alt="Espectro de Potência da FFT"
+             width="900">
+    </div>
+
+    <p>
+        O pico dominante do espectro corresponde ao principal ciclo periódico
+        presente na atividade solar.
+    </p>
+
+    <hr>
+
+    <h2>Interpretação Física</h2>
+
+    <p>
+        A <strong>Transformada de Fourier</strong> converte os dados do domínio
+        do tempo para o domínio das frequências, permitindo identificar padrões
+        periódicos que podem não ser facilmente observados diretamente na série temporal.
+    </p>
+
+    <p>
+        O pico encontrado no espectro representa a frequência dominante do sistema,
+        associada ao principal ciclo de atividade solar.
+    </p>
+
+    <p>
+        A partir dessa frequência, o programa calcula o período do ciclo solar utilizando:
+    </p>
+
+    <pre><code>periodo_pico = 1 / freqs[k_pico]</code></pre>
+
+    <p>
+        Como o período é o inverso da frequência, essa relação permite estimar a duração
+        do ciclo solar dominante. Os resultados obtidos costumam indicar um período próximo
+        de <strong>11 anos</strong>, valor compatível com o ciclo solar observado
+        historicamente.
+    </p>
+    </section>
+
+    <section id="X-ray" class="container">
+    <h1>X-ray</h1>
+
+    <p>
+        Este projeto realiza uma análise comparativa da atividade solar nos
+        <strong>Ciclos Solares 23 e 24 (1997–2017)</strong>, cruzando dois
+        indicadores independentes: o número de manchas solares e o fluxo de
+        raios X medido pelos satélites GOES/XRS.
+    </p>
+
+    <p>
+        O objetivo é identificar e visualizar a correlação entre os dois sinais
+        ao longo do tempo, aplicando normalização por <strong>Z-score</strong>
+        e suavização por meio do filtro <strong>Savitzky-Golay</strong>.
+    </p>
+
+    <hr>
+
+    <h2>Tecnologias Utilizadas</h2>
+
+    <ul>
+        <li>Python</li>
+        <li>Pandas</li>
+        <li>NumPy</li>
+        <li>Matplotlib</li>
+        <li>SciPy</li>
+        <li>SunPy</li>
+    </ul>
+
+    <hr>
+
+    <h2>Estrutura dos Arquivos</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Arquivo</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>goes.py</code></td>
+                <td>Download automático dos dados GOES/XRS via SunPy (1997–2017).</td>
+            </tr>
+            <tr>
+                <td><code>plots.py</code></td>
+                <td>Processamento dos dados e geração dos três gráficos.</td>
+            </tr>
+            <tr>
+                <td><code>dados/daily_Sunspots(97-17).csv</code></td>
+                <td>Dados diários de manchas solares (SIDC).</td>
+            </tr>
+            <tr>
+                <td><code>dados/daily_xray(97-17).csv</code></td>
+                <td>Dados diários de fluxo X-ray (GOES).</td>
+            </tr>
+            <tr>
+                <td><code>requirements.txt</code></td>
+                <td>Dependências do projeto.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Funcionamento do Código</h2>
+
+    <h3><code>goes.py</code></h3>
+
+    <ol>
+        <li>Realiza o download dos dados GOES/XRS ano a ano via <code>Fido</code> (SunPy);</li>
+        <li>Normaliza os nomes das colunas entre versões diferentes do instrumento;</li>
+        <li>Filtra valores fisicamente impossíveis;</li>
+        <li>Agrega os dados para resolução diária;</li>
+        <li>Salva o resultado consolidado em <code>goes_1997_2017.csv</code>.</li>
+    </ol>
+
+    <h3><code>plots.py</code></h3>
+
+    <ol>
+        <li>Carrega os dados de manchas solares e fluxo X-ray;</li>
+        <li>Calcula médias mensais para ambas as séries;</li>
+        <li>Aplica Z-score para normalizar as escalas;</li>
+        <li>Suaviza os dados utilizando filtro Savitzky-Golay (janela 13, grau 3);</li>
+        <li>Gera três gráficos e os salva na pasta <code>gráficos/</code>.</li>
+    </ol>
+
+    <hr>
+
+    <h2>Gráficos Gerados</h2>
+
+    <h3>Médias Mensais (Bruto)</h3>
+
+    <p>
+        Sobreposição direta dos dois sinais normalizados, sem suavização.
+    </p>
+
+    <div style="text-align: center;">
+        <img src="xray/gráficos/ciclo_solar_bruto.png"
+             alt="Médias Mensais Brutas"
+             width="900">
+    </div>
+
+    <hr>
+
+    <h3>Savitzky-Golay</h3>
+
+    <p>
+        Ambos os sinais suavizados, revelando a tendência de longo prazo
+        de cada ciclo solar.
+    </p>
+
+    <div style="text-align: center;">
+        <img src="xray/gráficos/ciclo_solar_suavizado.png"
+             alt="Sinais Suavizados com Savitzky-Golay"
+             width="900">
+    </div>
+
+    <hr>
+
+    <h3>Comparação Bruto × Suavizado</h3>
+
+    <p>
+        Painéis separados por indicador, mostrando o sinal bruto e a curva
+        suavizada sobrepostos.
+    </p>
+
+    <div style="text-align: center;">
+        <img src="xray/gráficos/ciclo_solar_comparacao.png"
+             alt="Comparação entre Dados Brutos e Suavizados"
+             width="900">
+    </div>
+
+    <hr>
+
+    <h2>Nota sobre o Gap de 1998</h2>
+
+    <p>
+        A região sombreada em cinza nos gráficos indica um período de ausência
+        de dados do sensor GOES durante o ano de 1998.
+    </p>
+
+    <p>
+        Os valores faltantes do fluxo de raios X foram interpolados temporalmente
+        antes da etapa de suavização. Além disso, meses com menos de dez observações
+        válidas foram descartados para evitar distorções estatísticas.
+    </p>
+
+    <hr>
+
+    <h2>Interpretação Física</h2>
+
+    <p>
+        O <strong>número de manchas solares</strong> é o indicador clássico da
+        atividade magnética fotosférica, enquanto o
+        <strong>fluxo de raios X</strong> na banda GOES B (1–8 Å) reflete a
+        atividade da coroa solar e a ocorrência de flares.
+    </p>
+
+    <p>
+        A elevada correlação observada entre os dois sinais indica que ambos
+        são manifestações distintas do mesmo ciclo magnético solar,
+        caracterizado por uma periodicidade média de aproximadamente
+        <strong>11 anos</strong>.
+    </p>
+
+    <p>
+        Os resultados mostram que o <strong>Ciclo Solar 23</strong> apresentou
+        seu máximo por volta de 2001–2002, seguido por um mínimo prolongado
+        entre 2008 e 2009. Já o <strong>Ciclo Solar 24</strong> atingiu seu
+        máximo próximo de 2014, porém com intensidade significativamente menor,
+        caracterizando um ciclo mais fraco em comparação ao anterior.
+    </p>
+
+    <p>
+        A aplicação do Z-score permite comparar diretamente séries com unidades
+        físicas diferentes, enquanto o filtro Savitzky-Golay reduz oscilações
+        de curto prazo, destacando a evolução global da atividade solar ao longo
+        dos ciclos analisados.
+    </p>
+    </section>
 
 </body>
 </html>
