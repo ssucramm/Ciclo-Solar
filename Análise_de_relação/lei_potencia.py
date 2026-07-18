@@ -1,75 +1,48 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
-from scipy.signal import savgol_filter
-from scipy.stats import linregress, spearmanr
-import os
 
-os.makedirs("gráficos", exist_ok=True)
+from Common.config import SG_WINDOW, SG_POLYORDER, CAMINHO_MANCHAS, CAMINHO_XRAY, DIR_GRAFICOS, garantir_dir_graficos
+from Common.dados import carregar_manchas_mensal, carregar_xray_mensal
+from Common.processamento import suavizar, alinhar
+from Common.estatisticas import ajustar_lei_potencia
 
-# ── Parâmetros ────────────────────────────────────────────────────────────────
-SG_WINDOW, SG_POLYORDER = 13, 3
+garantir_dir_graficos()
 
 # ── 1. Manchas solares ────────────────────────────────────────────────────────
-colunas = ['Ano','Mes','Dia','Ano_Fracionado','Num_Manchas','Desvio_Padrao','Num_Observacoes','Marcador']
-df_spots = pd.read_csv('dados/daily_Sunspots(97-17).csv', sep=';', names=colunas)
-df_spots = df_spots[df_spots['Num_Manchas'] >= 0]
-
-df_mensal = df_spots.groupby(['Ano','Mes'])['Num_Manchas'].mean().reset_index()
-df_mensal['Data'] = pd.to_datetime(
-    df_mensal[['Ano','Mes']].assign(day=1).rename(columns={'Ano':'year','Mes':'month'})
-).dt.to_period('M')
-df_mensal['Manchas_SG'] = savgol_filter(df_mensal['Num_Manchas'].values, SG_WINDOW, SG_POLYORDER)
-spots_s = df_mensal.set_index('Data')
+manchas = carregar_manchas_mensal(CAMINHO_MANCHAS)
+manchas_sg = suavizar(manchas, SG_WINDOW, SG_POLYORDER)
 
 # ── 2. X-ray ──────────────────────────────────────────────────────────────────
-df_xray     = pd.read_csv('dados/daily_xray(97-17).csv', index_col=0, parse_dates=True)
-xm          = df_xray['xrsb'].resample('ME').mean()
-xc          = df_xray['xrsb'].resample('ME').count()
-xm[xc < 10] = np.nan                         # gap 1998
-xm_interp   = xm.interpolate(method='time')  # interpola só para o SG
-xm_sg       = pd.Series(savgol_filter(xm_interp.values, SG_WINDOW, SG_POLYORDER), index=xm.index)
-xm.index    = xm.index.to_period('M')
-xm_sg.index = xm_sg.index.to_period('M')
+xray_mensal = carregar_xray_mensal(CAMINHO_XRAY)
+xray_interp = xray_mensal.interpolate(method='time')  # interpola só para o SG
+xray_sg = suavizar(xray_interp, SG_WINDOW, SG_POLYORDER)
+xray_mensal.index = xray_mensal.index.to_period('M')
+xray_sg.index = xray_sg.index.to_period('M')
 
 # ── 3. Alinhamento ────────────────────────────────────────────────────────────
-common     = spots_s.index.intersection(xm.index)
-manchas    = spots_s.loc[common, 'Num_Manchas'].values
-manchas_sg = spots_s.loc[common, 'Manchas_SG'].values
-xray       = xm.loc[common].values
-xray_sg    = xm_sg.loc[common].values
+common, (manchas_c, manchas_sg_c, xray_c, xray_sg_c) = alinhar(manchas, manchas_sg, xray_mensal, xray_sg)
+
+manchas_v, manchas_sg_v = manchas_c.values, manchas_sg_c.values
+xray_v, xray_sg_v = xray_c.values, xray_sg_c.values
 
 # Mantém apenas pares positivos válidos (necessário para log-log)
-mask_raw = (~np.isnan(manchas))    & (~np.isnan(xray))    & (manchas > 0)    & (xray > 0)
-mask_sg  = (~np.isnan(manchas_sg)) & (~np.isnan(xray_sg)) & (manchas_sg > 0) & (xray_sg > 0)
+mask_raw = (~np.isnan(manchas_v)) & (~np.isnan(xray_v)) & (manchas_v > 0) & (xray_v > 0)
+mask_sg = (~np.isnan(manchas_sg_v)) & (~np.isnan(xray_sg_v)) & (manchas_sg_v > 0) & (xray_sg_v > 0)
 
-m_r, x_r = manchas[mask_raw],   xray[mask_raw]
-m_s, x_s = manchas_sg[mask_sg], xray_sg[mask_sg]
+m_r, x_r = manchas_v[mask_raw], xray_v[mask_raw]
+m_s, x_s = manchas_sg_v[mask_sg], xray_sg_v[mask_sg]
 
 # ── 4. Ajuste log-log ─────────────────────────────────────────────────────────
-def fit(mx, xx):
-    """
-    Regressão linear em log-log:
-        log10(xray) = β·log10(manchas) + log10(a)
-        →  xray = a · manchas^β
-    Retorna: β, log10(a), R², p-valor, Spearman ρ, resíduos
-    """
-    lm, lx = np.log10(mx), np.log10(xx)
-    sl, ic, r, pv, _ = linregress(lm, lx)
-    rho, _  = spearmanr(mx, xx)
-    resid   = lx - (ic + sl * lm)
-    return sl, ic, r**2, pv, rho, resid
-
-β_r, a_r, r2_r, pv_r, ρ_r, res_r = fit(m_r, x_r)
-β_s, a_s, r2_s, pv_s, ρ_s, res_s = fit(m_s, x_s)
+β_r, a_r, r2_r, pv_r, ρ_r, res_r = ajustar_lei_potencia(m_r, x_r)
+β_s, a_s, r2_s, pv_s, ρ_s, res_s = ajustar_lei_potencia(m_s, x_s)
 
 print(f"[Bruto]  β={β_r:.3f}  log(a)={a_r:.3f}  R²={r2_r:.3f}  ρ={ρ_r:.3f}  p={pv_r:.1e}")
 print(f"[SG]     β={β_s:.3f}  log(a)={a_s:.3f}  R²={r2_s:.3f}  ρ={ρ_s:.3f}  p={pv_s:.1e}")
 
 # ── 5. Paleta ─────────────────────────────────────────────────────────────────
 C_RAW = '#E07B39'   # laranja — bruto
-C_SG  = '#08306B'   # azul escuro — suavizado
+C_SG = '#08306B'    # azul escuro — suavizado
 C_FIT = '#2CA02C'   # verde — linha de ajuste
 
 # ── 6. Figura 2×2 ─────────────────────────────────────────────────────────────
@@ -82,8 +55,8 @@ fig.suptitle(
     fontsize=12, fontweight='bold', y=1.01
 )
 gs = gridspec.GridSpec(2, 2, hspace=0.40, wspace=0.32)
-ax_sc_r  = fig.add_subplot(gs[0, 0])
-ax_sc_s  = fig.add_subplot(gs[0, 1])
+ax_sc_r = fig.add_subplot(gs[0, 0])
+ax_sc_s = fig.add_subplot(gs[0, 1])
 ax_res_r = fig.add_subplot(gs[1, 0])
 ax_res_s = fig.add_subplot(gs[1, 1])
 
@@ -119,11 +92,11 @@ def plota_residuos(ax, mx, resid, cor, titulo):
     ax.tick_params(labelsize=8)
 
 
-plota_scatter(ax_sc_r,  m_r, x_r, β_r, a_r, r2_r, pv_r, ρ_r, C_RAW,"Scatter log-log — Dados Brutos")
-plota_scatter(ax_sc_s,  m_s, x_s, β_s, a_s, r2_s, pv_s, ρ_s, C_SG,"Scatter log-log — Dados Suavizados (SG)")
+plota_scatter(ax_sc_r, m_r, x_r, β_r, a_r, r2_r, pv_r, ρ_r, C_RAW, "Scatter log-log — Dados Brutos")
+plota_scatter(ax_sc_s, m_s, x_s, β_s, a_s, r2_s, pv_s, ρ_s, C_SG, "Scatter log-log — Dados Suavizados (SG)")
 plota_residuos(ax_res_r, m_r, res_r, C_RAW, "Resíduos do ajuste — Bruto")
-plota_residuos(ax_res_s, m_s, res_s, C_SG,  "Resíduos do ajuste — Suavizado (SG)")
+plota_residuos(ax_res_s, m_s, res_s, C_SG, "Resíduos do ajuste — Suavizado (SG)")
 
-fig.savefig('gráficos/lei_potencia_xray_manchas.png', dpi=150, bbox_inches='tight')
+fig.savefig(f'{DIR_GRAFICOS}/lei_potencia_xray_manchas.png', dpi=150, bbox_inches='tight')
 plt.close(fig)
-print("Gráfico salvo em gráficos/lei_potencia_xray_manchas.png")
+print(f"Gráfico salvo em {DIR_GRAFICOS}/lei_potencia_xray_manchas.png")
