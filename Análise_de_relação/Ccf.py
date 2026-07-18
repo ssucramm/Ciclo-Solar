@@ -93,4 +93,5 @@ ax2.set_xlabel("Lag (meses)", fontsize=10)
 fig.tight_layout(rect=[0, 0, 1, 0.95])
 fig.savefig(f'{DIR_GRAFICOS}/ccf_manchas_xray.png', dpi=150)
 plt.close(fig)
+
 print(f"Gráfico salvo em {DIR_GRAFICOS}/ccf_manchas_xray.png")
